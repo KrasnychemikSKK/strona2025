@@ -1,0 +1,347 @@
+/* Import czcionki, która naśladuje pikselowy styl */
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+/* Resetowanie i podstawowe style */
+body {
+    font-family: 'Tahoma', 'Arial', sans-serif; /* Klasyczna czcionka Windows */
+    background-color: #C0C0C0; /* Szary kolor tła Windows 98 */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.desktop-wallpaper {
+    width: 100%;
+    min-height: 100vh;
+    background-color: #008080; /* Kolor 'pulpitu' - klasyczny turkus */
+    background-image: 
+        repeating-linear-gradient(0deg, transparent, transparent 4px, rgba(255, 255, 255, 0.1) 4px, rgba(255, 255, 255, 0.1) 5px),
+        repeating-linear-gradient(90deg, transparent, transparent 4px, rgba(255, 255, 255, 0.1) 4px, rgba(255, 255, 255, 0.1) 5px);
+    padding-bottom: 30px; /* Miejsce na pasek zadań */
+    box-sizing: border-box;
+    position: relative;
+}
+
+/* --- Stylizacja Windows '98 UI --- */
+
+/* Pasek tytułowy */
+.window-header {
+    background-color: #000080; /* Ciemnoniebieski */
+    color: white;
+    padding: 2px 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+    font-size: 14px;
+    border-top: 1px solid #0A246A;
+    cursor: default;
+}
+
+.window-controls button {
+    background-color: #C0C0C0;
+    border: 1px solid #000;
+    padding: 0 5px;
+    margin-left: 2px;
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 1;
+    height: 18px;
+    font-size: 12px;
+    box-shadow: 
+        1px 1px 0px #FFF, 
+        -1px -1px 0px #808080, 
+        1px 1px 0px 1px #000000; /* Klasyczny efekt 3D */
+}
+
+.window-controls button:active {
+    box-shadow: 
+        -1px -1px 0px #FFF, 
+        1px 1px 0px #808080, 
+        -1px -1px 0px 1px #000000;
+}
+
+/* Główne okno */
+.main-window {
+    background-color: #C0C0C0;
+    border: 3px solid #000;
+    width: 90%;
+    max-width: 800px;
+    margin: 50px auto 10px;
+    box-shadow: 4px 4px 0px #000;
+    min-height: 300px;
+}
+
+.window-body {
+    border-left: 1px solid #FFF;
+    border-top: 1px solid #FFF;
+    border-right: 1px solid #808080;
+    border-bottom: 1px solid #808080;
+    padding: 5px;
+    background-color: #FFF;
+}
+
+/* Pasek Menu */
+.start-menu-bar {
+    display: flex;
+    background-color: #C0C0C0;
+    border-bottom: 1px solid #808080;
+    padding: 2px 0;
+    font-size: 12px;
+}
+
+.start-text {
+    background-color: #000080;
+    color: white;
+    padding: 0 5px;
+    margin-right: 10px;
+    font-family: 'VT323', monospace;
+    font-size: 16px;
+    line-height: 1;
+}
+
+.menu-item {
+    padding: 0 5px;
+    cursor: default;
+}
+
+.menu-item:hover {
+    background-color: #000080;
+    color: white;
+}
+
+.menu-item.active {
+    border: 1px dotted #000;
+}
+
+/* Treść */
+.content {
+    padding: 20px;
+    color: #000;
+}
+
+.content h1 {
+    font-family: 'VT323', monospace;
+    font-size: 32px;
+    color: #FF00FF; /* Neonowy róż */
+    text-shadow: 2px 2px #000;
+    border-bottom: 4px dashed #FF00FF;
+    display: inline-block;
+    padding-bottom: 5px;
+    margin-top: 0;
+}
+
+.content p {
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+/* Blok wyróżnionego filmu */
+.featured-block {
+    display: flex;
+    gap: 20px;
+    margin-top: 25px;
+    background-color: #F0F0F0;
+    border: 1px solid #808080;
+    padding: 15px;
+}
+
+.featured-img {
+    width: 120px;
+    height: 160px;
+    border: 2px solid #000;
+    object-fit: cover;
+    image-rendering: pixelated;
+    box-shadow: 2px 2px 0px #000;
+}
+
+.featured-text h2 {
+    font-size: 20px;
+    color: #000080;
+    margin-top: 0;
+}
+
+/* Klasyczny Przycisk 3D */
+.classic-button {
+    background-color: #C0C0C0;
+    border-top: 2px solid #FFF;
+    border-left: 2px solid #FFF;
+    border-right: 2px solid #808080;
+    border-bottom: 2px solid #808080;
+    padding: 5px 15px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.classic-button:active {
+    border-top: 2px solid #808080;
+    border-left: 2px solid #808080;
+    border-right: 2px solid #FFF;
+    border-bottom: 2px solid #FFF;
+    padding: 6px 14px 4px 16px; /* Lekkie przesunięcie przycisku */
+}
+
+/* Pasek Statusu */
+.status-bar {
+    margin-top: 20px;
+    background-color: #C0C0C0;
+    border: 1px solid #000;
+    font-size: 12px;
+    padding: 2px 5px;
+    border-top: 1px solid #FFF;
+    border-left: 1px solid #FFF;
+    border-right: 1px solid #808080;
+    border-bottom: 1px solid #808080;
+}
+
+/* --- Ikony Pulpitu (Nawigacja) --- */
+
+.desktop-icons {
+    position: absolute;
+    top: 60px;
+    left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.icon-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    width: 80px;
+    padding: 5px;
+    text-align: center;
+}
+
+.icon-link:hover .icon-text {
+    background-color: #000080;
+    color: white;
+    border: 1px dotted white;
+}
+
+.icon-img {
+    width: 32px;
+    height: 32px;
+    image-rendering: pixelated;
+    margin-bottom: 3px;
+}
+
+.icon-text {
+    color: white;
+    font-size: 12px;
+    text-shadow: 1px 1px #000;
+    padding: 1px 3px;
+}
+
+/* --- Pasek Zadań (Taskbar) --- */
+
+.taskbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 30px;
+    background-color: #C0C0C0;
+    border-top: 2px solid #FFF;
+    display: flex;
+    align-items: center;
+    padding: 0 2px;
+    box-sizing: border-box;
+}
+
+.taskbar-start-button {
+    background-color: #C0C0C0;
+    border-top: 2px solid #FFF;
+    border-left: 2px solid #FFF;
+    border-right: 2px solid #000;
+    border-bottom: 2px solid #000;
+    padding: 3px 6px;
+    font-weight: bold;
+    font-family: 'Tahoma', sans-serif;
+    color: black;
+    margin-right: 5px;
+    line-height: 1;
+    font-size: 14px;
+    cursor: pointer;
+    background-image: linear-gradient(to right, #008080, #00C0C0);
+    box-shadow: 
+        1px 1px 0px #FFF, 
+        -1px -1px 0px #808080, 
+        1px 1px 0px 1px #000000;
+}
+
+.taskbar-start-button:active {
+    border-top: 2px solid #000;
+    border-left: 2px solid #000;
+    border-right: 2px solid #FFF;
+    border-bottom: 2px solid #FFF;
+}
+
+.taskbar-item {
+    background-color: #C0C0C0;
+    border-top: 2px solid #808080;
+    border-left: 2px solid #808080;
+    border-right: 2px solid #FFF;
+    border-bottom: 2px solid #FFF;
+    padding: 3px 10px 1px;
+    margin-right: 2px;
+    font-size: 12px;
+    line-height: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 150px;
+}
+
+.taskbar-item.active {
+    border-top: 2px solid #FFF;
+    border-left: 2px solid #FFF;
+    border-right: 2px solid #808080;
+    border-bottom: 2px solid #808080;
+    background-color: #C0C0C0;
+    padding: 4px 10px 0px;
+}
+
+.taskbar-clock {
+    margin-left: auto;
+    border-top: 1px solid #808080;
+    border-left: 1px solid #808080;
+    border-right: 1px solid #FFF;
+    border-bottom: 1px solid #FFF;
+    background-color: #C0C0C0;
+    padding: 3px 8px;
+    font-size: 12px;
+}
+
+/* Wstawione ikonki do nawigacji (dla lepszego efektu, używam placeholderów z Imgur) */
+/* Ikonki użyte w index.html (zamiast prawdziwych plików .ico)
+    DVD: https://i.imgur.com/8QZ3q7F.png 
+    Folder: https://i.imgur.com/KzR3F0S.png
+    Mail: https://i.imgur.com/5E6XwF2.png
+*/
+
+/* Media Queries dla responsywności (na wypadek małych ekranów) */
+@media (max-width: 768px) {
+    .main-window {
+        width: 95%;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    .desktop-icons {
+        display: none; /* Ukrywamy ikony pulpitu na małych ekranach */
+    }
+
+    .featured-block {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+}
