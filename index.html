@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Club '98 - Twoja Wypożyczalnia DVD</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="desktop-wallpaper">
+        <header class="window-header">
+            <div class="window-title">💿 Video Club '98</div>
+            <div class="window-controls">
+                <button class="control-btn minimize">-</button>
+                <button class="control-btn maximize">☐</button>
+                <button class="control-btn close">X</button>
+            </div>
+        </header>
+
+        <nav class="desktop-icons">
+            <a href="index.html" class="icon-link">
+                <img src="https://i.imgur.com/8QZ3q7F.png" alt="Ikonka DVD" class="icon-img">
+                <span class="icon-text">Główna</span>
+            </a>
+            <a href="katalog.html" class="icon-link">
+                <img src="https://i.imgur.com/KzR3F0S.png" alt="Ikonka folderu" class="icon-img">
+                <span class="icon-text">Katalog.html</span>
+            </a>
+            <a href="kontakt.html" class="icon-link">
+                <img src="https://i.imgur.com/5E6XwF2.png" alt="Ikonka wiadomości" class="icon-img">
+                <span class="icon-text">Kontakt.txt</span>
+            </a>
+        </nav>
+
+        <main class="main-window">
+            <div class="window-body">
+                <div class="start-menu-bar">
+                    <span class="start-text">START</span>
+                    <span class="menu-item active">Plik</span>
+                    <span class="menu-item">Edycja</span>
+                    <span class="menu-item">Pomoc</span>
+                </div>
+                
+                <div class="content">
+                    <h1>📼 Witaj w Video Club '98!</h1>
+                    <p>Poczuj magię ery VHS i wczesnego DVD. U nas znajdziesz klasyki, które pamiętasz z dzieciństwa i te, których nigdy nie widziałeś!</p>
+                    
+                    <div class="featured-block">
+                        <img src="https://i.imgur.com/Hl5p4yD.png" alt="Wyróżniony film" class="featured-img">
+                        <div class="featured-text">
+                            <h2>Wyróżniony Tytuł Tygodnia:</h2>
+                            <p>**MEGA HIT!** **Akcja, Sci-Fi, '97** - Nie przegap tego kosmicznego widowiska! Dostępny od zaraz na DVD!</p>
+                            <button id="show-alert-btn" class="classic-button">Wypożycz teraz!</button>
+                        </div>
+                    </div>
+
+                    <div class="status-bar">
+                        <span id="movie-count">348</span> plików DVD dostępnych | 
+                        <span id="status-message">Gotowy</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="taskbar">
+            <div class="taskbar-start-button">
+                START
+            </div>
+            <div class="taskbar-item active">
+                💿 Video Club '98
+            </div>
+            <div class="taskbar-clock" id="clock">
+                12:00 PM
+            </div>
+        </footer>
+    </div>
+    
+    <script src="js/script.js"></script>
+</body>
+</html>
