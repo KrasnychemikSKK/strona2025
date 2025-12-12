@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Club '98 - Statystyki Wypożyczeń</title>
+    <title>Video Club '98 - Baza Danych</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
 <body>
     <div class="desktop-wallpaper">
         <header class="window-header">
-            <div class="window-title">📊 Statystyki Wypożyczeń</div>
+            <div class="window-title">💿 Panel Administratora (Baza Danych)</div>
             <div class="window-controls">
                 <button class="control-btn minimize">-</button>
                 <button class="control-btn maximize">☐</button>
@@ -23,17 +23,13 @@
                 <img src="https://i.imgur.com/8QZ3q7F.png" alt="Ikonka DVD" class="icon-img">
                 <span class="icon-text">Główna</span>
             </a>
-            <a href="katalog.html" class="icon-link">
-                <img src="https://i.imgur.com/KzR3F0S.png" alt="Ikonka folderu" class="icon-img">
-                <span class="icon-text">Katalog.html</span>
-            </a>
-            <a href="kontakt.html" class="icon-link">
-                <img src="https://i.imgur.com/5E6XwF2.png" alt="Ikonka wiadomości" class="icon-img">
-                <span class="icon-text">Kontakt.txt</span>
-            </a>
             <a href="statystyki.html" class="icon-link">
-                <img src="https://i.imgur.com/8QZ3q7F.png" alt="Ikonka Wykresu" class="icon-img icon-chart">
-                <span class="icon-text">Statystyki.html</span>
+                <img src="https://i.imgur.com/KzR3F0S.png" alt="Ikonka folderu" class="icon-img">
+                <span class="icon-text">Baza Danych</span>
+            </a>
+            <a href="wykresy.html" class="icon-link">
+                <img src="https://i.imgur.com/5E6XwF2.png" alt="Ikonka Wykresu" class="icon-img">
+                <span class="icon-text">Wykresy.html</span>
             </a>
         </nav>
 
@@ -42,245 +38,141 @@
                 <div class="start-menu-bar">
                     <span class="start-text">START</span>
                     <span class="menu-item active">Plik</span>
-                    <span class="menu-item">Edycja</span>
+                    <span class="menu-item">Narzędzia</span>
                     <span class="menu-item">Pomoc</span>
                 </div>
                 
                 <div class="content">
-                    <h1>📊 Dashboard Statystyk</h1>
-                    <p>Wczytaj plik XLSX z danymi, aby zobaczyć aktualne statystyki wypożyczeń. Dane zostaną zapisane w pamięci przeglądarki.</p>
+                    <h1>💾 Import Danych (Backend)</h1>
+                    <p>Witaj w panelu administracyjnym. Tutaj wgrasz plik XLSX z danymi wypożyczeń. Dane zostaną zapisane w pamięci lokalnej i wyświetlone na stronie "Wykresy".</p>
                     
-                    <div class="dashboard-controls">
-                        <label for="xlsx-file" class="classic-button">Wybierz plik XLSX...</label>
-                        <input type="file" id="xlsx-file" accept=".xlsx, .xls" style="display: none;">
-                        <button id="clear-data-btn" class="classic-button">Wyczyść dane</button>
+                    <div class="featured-block">
+                        <div style="width: 100%;">
+                            <h2>1. Wczytaj plik</h2>
+                            <div class="dashboard-controls">
+                                <label for="xlsx-file" class="classic-button">📂 Otwórz plik Excel...</label>
+                                <input type="file" id="xlsx-file" accept=".xlsx, .xls" style="display: none;">
+                                <button id="clear-data-btn" class="classic-button" style="color: red;">🗑️ Formatuj dysk (Wyczyść)</button>
+                            </div>
+                            
+                            <div id="status-display" class="status-bar" style="margin-top: 10px;">
+                                Status: Oczekiwanie na dyskietkę...
+                            </div>
+                        </div>
                     </div>
 
-                    <div id="status-display" class="status-bar" style="margin-top: 20px;">
-                        <span id="data-count">0</span> rekordów w pamięci | 
-                        <span id="data-status">Gotowy do importu</span>
-                    </div>
-
-                    <div id="stats-display" class="featured-block dashboard-grid">
-                        <h2>Brak danych</h2>
-                        <p>Zaimportuj plik XLSX, aby zobaczyć statystyki wypożyczeń.</p>
+                    <div style="margin-top: 20px;">
+                        <h2>2. Podgląd surowych danych</h2>
+                        <div class="retro-table-container">
+                            <table class="retro-table" id="preview-table">
+                                <thead>
+                                    <tr>
+                                        <th>Status</th>
+                                        <th>Info</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Brak danych</td>
+                                        <td>Wgraj plik XLSX, aby zobaczyć podgląd.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
 
                     <div class="example-data-info">
-                        <h3>Oczekiwana struktura pliku XLSX:</h3>
-                        <p>Plik powinien zawierać kolumny: **Tytuł**, **Gatunek**, **Liczba Wypożyczeń**, **Rok Produkcji**.</p>
-                        <p>Możesz użyć przykładowych danych do testu:</p>
-                        <textarea id="example-data" rows="5" readonly>Tytuł,Gatunek,Liczba Wypożyczeń,Rok Produkcji
-Kosmiczne Wyprawy,Sci-Fi,150,1997
-Mroczny Detektyw,Thriller,95,1995
-VHS Komedia,Komedia,210,1999
-Kreskówka '98,Animacja,180,1998
-Wielki Wyścig,Akcja,120,1996</textarea>
+                        <h3>Wymagany format Excela:</h3>
+                        <p>Kolumny: <b>Tytuł</b>, <b>Gatunek</b>, <b>Liczba Wypożyczeń</b>, <b>Rok Produkcji</b></p>
                     </div>
                 </div>
             </div>
         </main>
 
         <footer class="taskbar">
-            <div class="taskbar-start-button">
-                START
-            </div>
-            <div class="taskbar-item active">
-                📊 Statystyki Wypożyczeń
-            </div>
-            <div class="taskbar-clock" id="clock">
-                12:00 PM
-            </div>
+            <div class="taskbar-start-button">START</div>
+            <div class="taskbar-item active">💾 Baza Danych</div>
+            <div class="taskbar-clock" id="clock">12:00 PM</div>
         </footer>
     </div>
     
     <script src="script.js"></script>
     <script>
-        // Ta sekcja powinna znaleźć się na końcu pliku script.js, ale dla wygody dodajemy ją bezpośrednio do statystyki.html
-        // w celu oddzielenia logiki statystyk od głównej logiki strony
         document.addEventListener('DOMContentLoaded', () => {
             const XLSX_KEY = 'videoClubStats';
             const fileInput = document.getElementById('xlsx-file');
-            const statusDisplay = document.getElementById('data-status');
-            const dataCountDisplay = document.getElementById('data-count');
-            const statsDisplay = document.getElementById('stats-display');
+            const statusDisplay = document.getElementById('status-display');
+            const previewTable = document.getElementById('preview-table');
             const clearDataBtn = document.getElementById('clear-data-btn');
 
-            // --- 1. Obsługa Wczytywania Pliku XLSX ---
-            fileInput.addEventListener('change', (event) => {
-                const file = event.target.files[0];
-                if (!file) {
+            function renderPreviewTable(data) {
+                if (!data || data.length === 0) {
+                    previewTable.innerHTML = '<thead><tr><th>Info</th></tr></thead><tbody><tr><td>Brak danych w pamięci.</td></tr></tbody>';
                     return;
                 }
+                
+                // Tworzenie nagłówków dynamicznie z kluczy pierwszego obiektu
+                const headers = Object.keys(data[0]);
+                let thead = '<thead><tr>';
+                headers.forEach(h => thead += `<th>${h}</th>`);
+                thead += '</tr></thead>';
 
-                statusDisplay.textContent = 'Wczytywanie...';
+                // Tworzenie wierszy (max 50 dla podglądu)
+                let tbody = '<tbody>';
+                data.slice(0, 50).forEach(row => {
+                    tbody += '<tr>';
+                    headers.forEach(h => tbody += `<td>${row[h] || ''}</td>`);
+                    tbody += '</tr>';
+                });
+                tbody += '</tbody>';
 
+                previewTable.innerHTML = thead + tbody;
+            }
+
+            // Wczytanie danych przy starcie
+            const storedData = localStorage.getItem(XLSX_KEY);
+            if (storedData) {
+                const parsed = JSON.parse(storedData);
+                statusDisplay.textContent = `W pamięci: ${parsed.length} rekordów.`;
+                renderPreviewTable(parsed);
+            }
+
+            fileInput.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+
+                statusDisplay.textContent = 'Czytanie dyskietki...';
                 const reader = new FileReader();
-                reader.onload = (e) => {
+                reader.onload = (evt) => {
                     try {
-                        const data = new Uint8Array(e.target.result);
+                        const data = new Uint8Array(evt.target.result);
                         const workbook = XLSX.read(data, { type: 'array' });
-                        
-                        // Zakładamy, że interesuje nas pierwszy arkusz
-                        const firstSheetName = workbook.SheetNames[0];
-                        const worksheet = workbook.Sheets[firstSheetName];
-
-                        // Konwersja arkusza na JSON (tablicę obiektów)
+                        const worksheet = workbook.Sheets[workbook.SheetNames[0]];
                         const json = XLSX.utils.sheet_to_json(worksheet);
 
-                        // Walidacja i czyszczenie danych (prosta)
-                        const requiredFields = ['Tytuł', 'Gatunek', 'Liczba Wypożyczeń', 'Rok Produkcji'];
-                        const cleanedData = json.filter(item => 
-                            requiredFields.every(field => item.hasOwnProperty(field))
-                        );
-
-                        if (cleanedData.length === 0) {
-                             statusDisplay.textContent = 'BŁĄD: Brak rekordów z wymaganymi kolumnami.';
-                             renderStats([]);
-                             return;
+                        if(json.length > 0) {
+                            localStorage.setItem(XLSX_KEY, JSON.stringify(json));
+                            statusDisplay.textContent = `SUKCES! Zapisano ${json.length} rekordów. Przejdź do zakładki Wykresy.`;
+                            renderPreviewTable(json);
+                            alert("Dane załadowane poprawnie! Możesz teraz otworzyć stronę WYKRESY.");
+                        } else {
+                            statusDisplay.textContent = 'Błąd: Pusty plik.';
                         }
-
-                        // Zapis do localStorage
-                        localStorage.setItem(XLSX_KEY, JSON.stringify(cleanedData));
-                        statusDisplay.textContent = `Pomyślnie załadowano ${cleanedData.length} rekordów.`;
-                        renderStats(cleanedData);
-
-                    } catch (error) {
-                        console.error('Błąd parsowania XLSX:', error);
-                        statusDisplay.textContent = 'BŁĄD: Nie udało się przetworzyć pliku XLSX.';
+                    } catch (err) {
+                        statusDisplay.textContent = 'Błąd odczytu pliku.';
+                        console.error(err);
                     }
                 };
                 reader.readAsArrayBuffer(file);
             });
 
-            // --- 2. Obsługa Czyszczenia Danych ---
             clearDataBtn.addEventListener('click', () => {
-                localStorage.removeItem(XLSX_KEY);
-                statusDisplay.textContent = 'Dane zostały wyczyszczone.';
-                renderStats([]);
-            });
-
-            // --- 3. Funkcje Analityczne i Renderowanie Dashboardu ---
-            
-            function calculateStats(data) {
-                if (data.length === 0) {
-                    return null;
-                }
-
-                // A. Total Wypożyczeń
-                const totalWypozyczen = data.reduce((sum, item) => sum + (parseInt(item['Liczba Wypożyczeń']) || 0), 0);
-
-                // B. Top 3 Gatunki
-                const genreCounts = data.reduce((acc, item) => {
-                    const genre = item['Gatunek'] || 'Nieznany';
-                    const rentals = parseInt(item['Liczba Wypożyczeń']) || 0;
-                    acc[genre] = (acc[genre] || 0) + rentals;
-                    return acc;
-                }, {});
-
-                const topGenres = Object.entries(genreCounts)
-                    .sort(([, countA], [, countB]) => countB - countA)
-                    .slice(0, 3);
-                
-                // C. Najczęściej Wypożyczany Film
-                const topMovie = data.reduce((top, item) => {
-                    const rentals = parseInt(item['Liczba Wypożeń']) || 0;
-                    if (rentals > (top.rentals || 0)) {
-                        return { title: item['Tytuł'], rentals: rentals, genre: item['Gatunek'] };
-                    }
-                    return top;
-                }, {});
-
-                return {
-                    totalWypozyczen,
-                    topGenres,
-                    topMovie
-                };
-            }
-
-            function renderStats(data) {
-                const stats = calculateStats(data);
-                dataCountDisplay.textContent = data.length;
-                statsDisplay.innerHTML = ''; // Wyczyść poprzednie statystyki
-
-                if (!stats) {
-                    statsDisplay.innerHTML = '<h2>Brak danych</h2><p>Zaimportuj plik XLSX, aby zobaczyć statystyki wypożyczeń.</p>';
-                    return;
-                }
-
-                // Zgodnie ze stylem Windows 98, użyjemy prostych bloków i tekstu.
-                
-                const totalBlock = `
-                    <div class="stat-box">
-                        <div class="stat-label">Całkowita Liczba Wypożyczeń:</div>
-                        <div class="stat-value">${stats.totalWypozyczen}</div>
-                    </div>
-                `;
-
-                const topGenresBlock = `
-                    <div class="stat-box">
-                        <div class="stat-label">TOP 3 Gatunki (wg. Wypożyczeń):</div>
-                        <ol class="stat-list">
-                            ${stats.topGenres.map(([genre, count]) => 
-                                `<li>**${genre}**: ${count} wypożyczeń</li>`
-                            ).join('')}
-                        </ol>
-                    </div>
-                `;
-
-                const topMovieBlock = stats.topMovie.title ? `
-                    <div class="stat-box">
-                        <div class="stat-label">MEGA HIT TYGODNIA:</div>
-                        <p class="movie-hit">**${stats.topMovie.title}**</p>
-                        <p class="movie-info">Gatunek: ${stats.topMovie.genre}</p>
-                        <p class="movie-info">Wypożyczeń: ${stats.topMovie.rentals}</p>
-                    </div>
-                ` : '';
-
-                statsDisplay.innerHTML = `
-                    <div class="dashboard-section">
-                        ${totalBlock}
-                    </div>
-                    <div class="dashboard-section">
-                        ${topGenresBlock}
-                    </div>
-                    <div class="dashboard-section">
-                        ${topMovieBlock}
-                    </div>
-                `;
-
-                // Po załadowaniu strony, sprawdź i załaduj dane z localStorage
-                const storedData = localStorage.getItem(XLSX_KEY);
-                if (storedData) {
-                    try {
-                        const parsedData = JSON.parse(storedData);
-                        renderStats(parsedData);
-                        statusDisplay.textContent = `Załadowano ${parsedData.length} rekordów z pamięci.`;
-                    } catch (e) {
-                        localStorage.removeItem(XLSX_KEY);
-                        statusDisplay.textContent = 'BŁĄD: Uszkodzone dane w pamięci.';
-                        renderStats([]);
-                    }
-                } else {
-                    renderStats([]);
-                }
-            }
-
-            // Inicjalizacja: Wczytaj dane przy starcie
-            const storedData = localStorage.getItem(XLSX_KEY);
-            if (storedData) {
-                try {
-                    const parsedData = JSON.parse(storedData);
-                    renderStats(parsedData);
-                    statusDisplay.textContent = `Załadowano ${parsedData.length} rekordów z pamięci.`;
-                } catch (e) {
+                if(confirm("Czy na pewno chcesz skasować bazę danych?")) {
                     localStorage.removeItem(XLSX_KEY);
-                    statusDisplay.textContent = 'BŁĄD: Uszkodzone dane w pamięci.';
-                    renderStats([]);
+                    statusDisplay.textContent = 'Baza danych wyczyszczona.';
+                    renderPreviewTable([]);
                 }
-            } else {
-                renderStats([]);
-            }
+            });
         });
     </script>
 </body>

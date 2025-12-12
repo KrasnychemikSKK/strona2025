@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Club '98 - Raporty i Wykresy</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="desktop-wallpaper">
+        <header class="window-header">
+            <div class="window-title">📈 Statystyki Sprzedaży v1.0</div>
+            <div class="window-controls">
+                <button class="control-btn minimize">-</button>
+                <button class="control-btn maximize">☐</button>
+                <button class="control-btn close">X</button>
+            </div>
+        </header>
+
+        <nav class="desktop-icons">
+            <a href="index.html" class="icon-link">
+                <img src="https://i.imgur.com/8QZ3q7F.png" alt="Ikonka DVD" class="icon-img">
+                <span class="icon-text">Główna</span>
+            </a>
+            <a href="statystyki.html" class="icon-link">
+                <img src="https://i.imgur.com/KzR3F0S.png" alt="Ikonka folderu" class="icon-img">
+                <span class="icon-text">Baza Danych</span>
+            </a>
+            <a href="wykresy.html" class="icon-link">
+                <img src="https://i.imgur.com/5E6XwF2.png" alt="Ikonka Wykresu" class="icon-img">
+                <span class="icon-text">Wykresy.html</span>
+            </a>
+        </nav>
+
+        <main class="main-window" style="max-width: 900px;">
+            <div class="window-body">
+                <div class="start-menu-bar">
+                    <span class="start-text">START</span>
+                    <span class="menu-item active">Raport</span>
+                    <span class="menu-item">Drukuj</span>
+                    <span class="menu-item">Widok</span>
+                </div>
+                
+                <div class="content">
+                    <h1>📊 Centrum Analityczne</h1>
+                    
+                    <div class="tab-nav">
+                        <button class="classic-button" onclick="showTab('charts')">Wykresy</button>
+                        <button class="classic-button" onclick="showTab('table')">Pełna Tabela</button>
+                    </div>
+
+                    <div id="no-data-msg" style="display:none; color: red; font-weight: bold; text-align: center; padding: 20px;">
+                        BŁĄD 404: Brak danych. Przejdź do "Baza Danych" i wgraj plik Excel.
+                    </div>
+
+                    <div id="view-charts">
+                        <div class="dashboard-grid" style="grid-template-columns: 1fr 1fr; gap: 20px;">
+                            
+                            <div class="dashboard-section">
+                                <div class="stat-label">Najpopularniejsze Gatunki</div>
+                                <div id="genre-chart" class="chart-container">
+                                    </div>
+                            </div>
+
+                            <div class="dashboard-section">
+                                <div class="stat-label">Podsumowanie</div>
+                                <div class="stat-box">
+                                    <div>Razem filmów:</div>
+                                    <div class="stat-value" id="total-movies">0</div>
+                                </div>
+                                <div class="stat-box">
+                                    <div>Całkowite wypożyczenia:</div>
+                                    <div class="stat-value" id="total-rentals">0</div>
+                                </div>
+                            </div>
+
+                        </div>
+                        
+                        <div class="dashboard-section" style="margin-top: 20px;">
+                            <div class="stat-label">TOP 5 Filmów (Najwięcej wypożyczeń)</div>
+                            <div id="movie-chart" class="chart-container">
+                                </div>
+                        </div>
+                    </div>
+
+                    <div id="view-table" style="display: none; margin-top: 20px;">
+                        <div class="retro-table-container">
+                            <table class="retro-table" id="full-data-table">
+                                </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+
+        <footer class="taskbar">
+            <div class="taskbar-start-button">START</div>
+            <div class="taskbar-item active">📊 Raporty</div>
+            <div class="taskbar-clock" id="clock">12:00 PM</div>
+        </footer>
+    </div>
+    
+    <script src="script.js"></script>
+    <script>
+        // Prosty system zakładek
+        function showTab(tabName) {
+            document.getElementById('view-charts').style.display = tabName === 'charts' ? 'block' : 'none';
+            document.getElementById('view-table').style.display = tabName === 'table' ? 'block' : 'none';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const XLSX_KEY = 'videoClubStats';
+            const rawData = localStorage.getItem(XLSX_KEY);
+            
+            if (!rawData) {
+                document.getElementById('no-data-msg').style.display = 'block';
+                document.getElementById('view-charts').style.display = 'none';
+                return;
+            }
+
+            const data = JSON.parse(rawData);
+            
+            // 1. Podsumowanie Liczbowe
+            document.getElementById('total-movies').textContent = data.length;
+            const totalRentals = data.reduce((sum, item) => sum + (parseInt(item['Liczba Wypożyczeń']) || 0), 0);
+            document.getElementById('total-rentals').textContent = totalRentals;
+
+            // 2. Generowanie Wykresu Gatunków
+            const genres = {};
+            data.forEach(item => {
+                const g = item['Gatunek'] || 'Inne';
+                genres[g] = (genres[g] || 0) + (parseInt(item['Liczba Wypożyczeń']) || 0);
+            });
+            // Sortowanie i top 5
+            const sortedGenres = Object.entries(genres).sort((a,b) => b[1] - a[1]).slice(0, 5);
+            const maxGenreVal = Math.max(...sortedGenres.map(g => g[1]));
+
+            const genreChartEl = document.getElementById('genre-chart');
+            sortedGenres.forEach(([name, val]) => {
+                const heightPercent = (val / maxGenreVal) * 100;
+                // HTML słupka
+                const barHtml = `
+                    <div class="chart-bar-wrapper">
+                        <div class="chart-value">${val}</div>
+                        <div class="chart-bar" style="height: ${heightPercent}%"></div>
+                        <div class="chart-label">${name}</div>
+                    </div>
+                `;
+                genreChartEl.insertAdjacentHTML('beforeend', barHtml);
+            });
+
+            // 3. Generowanie Wykresu Top Filmów
+            const sortedMovies = [...data].sort((a,b) => (b['Liczba Wypożyczeń']||0) - (a['Liczba Wypożyczeń']||0)).slice(0, 5);
+            const maxMovieVal = sortedMovies[0]['Liczba Wypożyczeń'] || 1;
+            
+            const movieChartEl = document.getElementById('movie-chart');
+            sortedMovies.forEach(item => {
+                const val = item['Liczba Wypożyczeń'] || 0;
+                const heightPercent = (val / maxMovieVal) * 100;
+                const title = item['Tytuł'].length > 15 ? item['Tytuł'].substring(0,12)+'...' : item['Tytuł'];
+                
+                const barHtml = `
+                    <div class="chart-bar-wrapper">
+                        <div class="chart-value">${val}</div>
+                        <div class="chart-bar" style="height: ${heightPercent}%; background: linear-gradient(to top, #008000, #00FF00);"></div>
+                        <div class="chart-label" title="${item['Tytuł']}">${title}</div>
+                    </div>
+                `;
+                movieChartEl.insertAdjacentHTML('beforeend', barHtml);
+            });
+
+            // 4. Generowanie Pełnej Tabeli
+            const tableEl = document.getElementById('full-data-table');
+            if(data.length > 0) {
+                const cols = Object.keys(data[0]);
+                let thead = '<thead><tr>';
+                cols.forEach(c => thead += `<th>${c}</th>`);
+                thead += '</tr></thead><tbody>';
+                
+                data.forEach(row => {
+                    thead += '<tr>';
+                    cols.forEach(c => thead += `<td>${row[c]}</td>`);
+                    thead += '</tr>';
+                });
+                thead += '</tbody>';
+                tableEl.innerHTML = thead;
+            }
+        });
+    </script>
+</body>
+</html>
